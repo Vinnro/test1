@@ -1,4 +1,3 @@
-// server.js
 require("dotenv").config();
 
 const express = require("express");
@@ -7,15 +6,12 @@ const path = require("path");
 const app = express();
 app.use(express.json());
 
-// Статика: положи index.html в папку public
 app.use(express.static(path.join(__dirname, "public")));
 
-// Если index.html лежит рядом с server.js, а не в /public — раскомментируй:
-// app.get("/", (_, res) => res.sendFile(path.join(__dirname, "index.html")));
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// Актуальная модель (быстрая и недорогая)
+
 const MODEL = "gemini-2.5-flash";
 
 if (!GEMINI_API_KEY) {
@@ -59,7 +55,6 @@ app.post("/api/chat", async (req, res) => {
 
     const data = await r.json();
 
-    // ВАЖНО: отдаём понятную ошибку, если API вернул не 2xx
     if (!r.ok) {
       console.error("Gemini API error:", data);
       return res.status(r.status).json({
